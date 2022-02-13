@@ -6,7 +6,7 @@ The folder "ANN_NMR" contains the python code for generating artifical spectra a
 
 The folder "ANN_datafusion_NMR_UVvis" contains the python code for training the datafusion ANN.
 
-The data sets can be found on:
+The data sets for training can be found on:
 
 https://doi.org/10.5281/zenodo.6066166
 
