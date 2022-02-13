@@ -6,7 +6,7 @@ Created on Mon Jan 10 12:17:03 2022
 Code accompanying the publication "Artificial Neural Networks and Data Fusion Enable Concentration Predictions for Inline Process Analyticsy" 
 Authors: Peter Sagmeister, Robin Hierzegger, Jason D. Williams, C. Oliver Kappe and Stefan Kowarik
 publication link:   https://
-data available at:  https://doi.org/10.5281/zenodo.6064586
+data available at:  https://doi.org/10.5281/zenodo.6066166
 """
 
 #%% import functions
