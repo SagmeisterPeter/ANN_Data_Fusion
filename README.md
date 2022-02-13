@@ -2,9 +2,9 @@
 
 The folder "models" contains the best models obtained in the training process.
 
-The folder "ANN" contains the python code for generating artifical spectra and training the NMR ANN.
+The folder "ANN_NMR" contains the python code for generating artifical spectra and training the NMR ANN.
 
-The folder "ANN" contains the python code for training the datafusion ANN.
+The folder "ANN_datafusion_NMR_UVvis" contains the python code for training the datafusion ANN.
 
 The data sets can be found on:
 
