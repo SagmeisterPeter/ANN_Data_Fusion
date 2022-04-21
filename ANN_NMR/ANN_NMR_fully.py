@@ -90,12 +90,12 @@ model_path_name = 'model_1.hdf5'                # insert model name
 
 # Architecture of the NMR model
 visible = Input(shape=(600,))                       # input layer (spectrum size)
-hidden11 = Dense(600,activation='relu')(visible)    # dense layer 1
-hidden12 = Dense(243, activation='relu')(hidden11)  # dense layer 2
-hidden13 = Dense(81, activation='relu')(hidden12)   # dense layer 3
-hidden14 = Dense(9, activation='relu')(hidden13)    # dense layer 4
-output = Dense(3, activation='relu')(hidden14)      # dense layer 5
-model = Model(inputs=visible, outputs=output)       # output layer
+hidden11 = Dense(600,activation='relu')(visible)    #dense layer 1 connected to the input layer (tune neurons and activation function)
+hidden12 = Dense(243, activation='relu')(hidden11)  #dense layer 2 connected to the densee layer 1 (tune neurons and activation function)
+hidden13 = Dense(81, activation='relu')(hidden12)   #dense layer 3 connected to the densee layer 2 (tune neurons and activation function)
+hidden14 = Dense(9, activation='relu')(hidden13)    #dense layer 4 connected to the densee layer 3 (tune neurons and activation function)
+output = Dense(3, activation='relu')(hidden14)      #model output dense layer 5 connected to the dense layer 4 (3 neurons represent the 3 intermediates measured at this point, tune the activation function)
+model = Model(inputs=visible, outputs=output)       #assign inputs and outputs of the model
 # summarize model
 print(model.summary())
 # compile the fully dense ANN model
