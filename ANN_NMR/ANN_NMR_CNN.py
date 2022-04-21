@@ -95,12 +95,12 @@ model_path_name = 'model_1.hdf5'        # assign name of the model
 
 # Architecture of the NMR model
 visible = Input(shape=(600,1))                                                      #input layer (spectrum size)
-conv1 = Conv1D(filters=16, kernel_size=9, strides=9, activation='relu')(visible)    #convolutional layer
+conv1 = Conv1D(filters=16, kernel_size=9, strides=9, activation='relu')(visible)    #convolutional layer (tune filters, kernel size, strides and the activation function)
 flat = Flatten()(conv1)                                                             #flatten of the convolutional layer
-hidden13 = Dense(27, activation='relu')(flat)                                       # dense layer 1
-hidden14 = Dense(9, activation='relu')(hidden13)                                    # dense layer 2
-output = Dense(3, activation='relu')(hidden14)                                      # dense layer 3
-model = Model(inputs=visible, outputs=output)                                       # output layer
+hidden13 = Dense(27, activation='relu')(flat)                                       #dense layer 1 connected to the flatten layer (tune neurons and activation function)
+hidden14 = Dense(9, activation='relu')(hidden13)                                    #dense layer 2 connected to the densee layer 1 (tune neurons and activation function)
+output = Dense(3, activation='relu')(hidden14)                                      #model output dense layer 3 connected to the dense layer 2 (3 neurons represent the 3 intermediates measured at this point, tune the activation function)
+model = Model(inputs=visible, outputs=output)                                       #assign inputs and outputs of the model
 
 # summarize layers
 print(model.summary())
