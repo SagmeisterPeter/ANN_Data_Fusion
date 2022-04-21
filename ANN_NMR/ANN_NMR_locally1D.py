@@ -95,12 +95,13 @@ model_path_name = 'model_1.hdf5'                                 # assign name o
 
 # Architecture of the NMR model
 visible = Input(shape=(600,1))                                                                      #input layer (spectrum size)
-conv1 = LocallyConnected1D(filters=16, kernel_size=9, strides=9, activation='elu') (visible)        #convolutional layer
+conv1 = LocallyConnected1D(filters=16, kernel_size=9, strides=9, activation='elu') (visible)        #convolutional layer (tune filters, kernel size, strides and the activation function)
 flat = Flatten()(conv1)                                                                             #flatten of the convolutional layer
-hidden11 = Dense(27, activation='elu')(flat)                                                        #dense layer 1     
-hidden12 = Dense(9, activation='elu')(hidden11)                                                     #dense layer 2   
-output = Dense(3, activation='relu')(hidden12)                                                      #dense layer 3   
-model = Model(inputs=visible, outputs=output)                                                       #output layer   
+hidden11 = Dense(27, activation='elu')(flat)                                                        #dense layer 1 connected to the flatten layer (tune neurons and activation function)
+hidden12 = Dense(9, activation='elu')(hidden11)                                                     #dense layer 2 connected to the densee layer 1 (tune neurons and activation function)
+output = Dense(3, activation='relu')(hidden12)                                                      #model output dense layer 3 connected to the dense layer 2 (3 neurons represent the 3 intermediates measured at this point, tune the activation function)
+model = Model(inputs=visible, outputs=output)                                                       #assign inputs and outputs of the model
+
 # summarize model
 print(model.summary())
 # compile the locally connected 1D ANN model
