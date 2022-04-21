@@ -47,7 +47,7 @@ for i in range(len(training_X_NMR)):
    
 training_X_UV_norm = np.empty(np.shape(training_X_UV))                  #normalization of UV spectra
 for i in range(len(training_X_UV)):
-    training_X_UV_norm[i] = training_X_UV[i] / 0.6   #change this to a lower 
+    training_X_UV_norm[i] = training_X_UV[i] / 0.6
 
 #%%normallization of concentrations
 
