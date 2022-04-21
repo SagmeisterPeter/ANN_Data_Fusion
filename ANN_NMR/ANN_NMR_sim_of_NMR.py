@@ -12,20 +12,19 @@ data available at:  https://doi.org/10.5281/zenodo.6066166
 import numpy as np
 
 #%% load in mean NMR spectra
-path1 = 'C:/Users/peter.sagmeister/OneDrive - Research Center Pharmaceutical Engineering/PhD/Projects/6_Others/Paper_datafusion/Code for github and models/NMR/NMR_pure_spectrum_2ClBA.npy'  
+path1 = '/NMR_pure_spectrum_2ClBA.npy'              # insert path for the file
 conc_spec1 = np.load(path1)
-spec_1 = conc_spec1[3:]
-conc1 = conc_spec1[0:3]
-path2 = 'C:/Users/peter.sagmeister/OneDrive - Research Center Pharmaceutical Engineering/PhD/Projects/6_Others/Paper_datafusion/Code for github and models/NMR/NMR_pure_spectrum_3N-2ClBA.npy'  
+spec_1 = conc_spec1[3:]                             # assign spectra to a variable
+conc1 = conc_spec1[0:3]                             # assign concentration to a variable
+path2 = '/NMR_pure_spectrum_3N-2ClBA.npy'           # insert path for the file
 conc_spec2 = np.load(path2)
-spec_2 = conc_spec2[3:]
-conc2 = conc_spec2[0:3]
+spec_2 = conc_spec2[3:]                             # assign spectra to a variable
+conc2 = conc_spec2[0:3]                             # assign concentration to a variable
 
-path3 = 'C:/Users/peter.sagmeister/OneDrive - Research Center Pharmaceutical Engineering/PhD/Projects/6_Others/Paper_datafusion/Code for github and models/NMR/NMR_pure_spectrum_5N-2ClBA.npy'  
+path3 = '/NMR_pure_spectrum_5N-2ClBA.npy'           # insert path for the file
 conc_spec3 = np.load(path3)
-spec_3 = conc_spec3[3:]
-conc3 = conc_spec3[0:3]
-
+spec_3 = conc_spec3[3:]                             # assign spectra to a variable
+conc3 = conc_spec3[0:3]                             # assign concentration to a variable
 
 #%% functions for creating the concentration frame
 
@@ -130,13 +129,13 @@ data_ati = np.concatenate((c_ati,spec_ati),axis=1)
 spec_ati_shift2 = np.zeros((spec_ati.shape))
 spec_ati_shift3 = np.zeros((spec_ati.shape))
 
-for j in range(0,17100,49):
+for j in range(0,17100,49):                 # shift data to the right
     for i in range(0,50):
         a = spec_ati[i+j,:i] 
         b = spec_ati[i+j,i:] 
         spec_ati_shift2[i+j,:] = np.concatenate((b,a),axis=0)
 
-for j in range(0,17100,49):       
+for j in range(0,17100,49):                 # shift data to the left
     for i in range(0,50):
         a = spec_ati[i+j,-i:] 
         b = spec_ati[i+j,:-i] 
@@ -148,6 +147,6 @@ NMR_comb_shifted_r = np.concatenate((c_ati,spec_ati_shift3),axis=1)
 NMR_comb = np.concatenate((NMR_comb_notshift,NMR_comb_shifted_l,NMR_comb_shifted_r),axis=0)
 
 #%% save simulated one in a npy
-dirname_save = ''
+dirname_save = ''                                       # insert path for the file
 np.save(dirname_save+"/NMR_simulated_set.npy",NMR_comb)
 
