@@ -33,17 +33,17 @@ train_set = np.concatenate((experimental_mixtures_set, simulated_set), axis=0)
 np.random.shuffle(dynamic_set )
 np.random.shuffle(train_set)
 
-train_spec = train_set[:,3:]
-train_conc = train_set[:,0:3]
-val_spec = dynamic_set [:,3:]
-val_conc = dynamic_set [:,0:3]
+train_spec = train_set[:,3:]            #assign spectra of the training set to a variable 
+train_conc = train_set[:,0:3]           #assign concentrations of the training set to a variable 
+val_spec = dynamic_set [:,3:]           #assign spectra of the validation set to a variable 
+val_conc = dynamic_set [:,0:3]          #assign concentrations of the validation set to a variable 
 
 #%% normalization of the NMR spectrum of training and validation set
-train_spec_norm = np.empty(np.shape(train_spec)) 
+train_spec_norm = np.empty(np.shape(train_spec))                    # normalization of the training spectra
 for i in range(len(train_spec)):
     train_spec_norm[i] = train_spec[i] / 1000
 
-val_spec_norm = np.empty(np.shape(val_spec)) 
+val_spec_norm = np.empty(np.shape(val_spec))                        # normalization of the validation spectra
 for i in range(len(val_spec)):
     val_spec_norm[i] = val_spec[i] / 1000
 
@@ -52,13 +52,13 @@ val_spec = val_spec_norm
 
 #%%  normalization of concentration of the training and validation set
 train_conc_norm = np.empty(np.shape(train_conc)) 
-for i in range(len(train_conc)):
+for i in range(len(train_conc)):                                # normalization of the training concentrations
         train_conc_norm[i,0] = train_conc[i,0] / 0.28
         train_conc_norm[i,1] = train_conc[i,1] / 0.1
         train_conc_norm[i,2] = train_conc[i,2] / 0.28
     
 val_conc_norm  = np.empty(np.shape(val_conc)) 
-for i in range(len(val_conc)):
+for i in range(len(val_conc)):                                  # normalization of the validation concentrations
     val_conc_norm[i,0] = val_conc [i,0] / 0.28
     val_conc_norm[i,1] = val_conc [i,1] / 0.1
     val_conc_norm[i,2] = val_conc [i,2] / 0.28
@@ -70,14 +70,14 @@ val_conc = val_conc_norm
 xp = np.linspace(7, 9, 1148)    
 x = np.linspace(7,9 ,600)
 
-train_spec_red = np.zeros((len(train_spec),600))
+train_spec_red = np.zeros((len(train_spec),600))                # reduce the data points of each NMR spectra
 for i in range(0,len(train_spec)):  
     interpol = np.interp(x, xp, train_spec[i], left=None, right=None, period=None)
     train_spec_red[i] = interpol
 
 train_spec = train_spec_red
 
-val_spec_red = np.zeros((len(val_spec),600))
+val_spec_red = np.zeros((len(val_spec),600))                    # reduce the data points of each NMR spectra
 for i in range(0,len(val_spec)):  
     interpol = np.interp(x, xp, val_spec[i], left=None, right=None, period=None)
     val_spec_red[i] = interpol
@@ -86,21 +86,21 @@ val_spec= val_spec_red
   
     
 #%% prepare spectra for CNN layer
-train_spec = train_spec.reshape((train_spec.shape[0],train_spec.shape[1],1))
-val_spec  = val_spec.reshape((val_spec.shape[0],val_spec.shape[1],1))
+train_spec = train_spec.reshape((train_spec.shape[0],train_spec.shape[1],1))        #reshape the spectra of the training data
+val_spec  = val_spec.reshape((val_spec.shape[0],val_spec.shape[1],1))               #reshape the spectra of the validation data
 
 #%% define the model and define the architecture of the ANN
-path2 = ''
-model_path_name = 'model_1.hdf5'  
+path2 = ''                              # insert path where the model should be saved
+model_path_name = 'model_1.hdf5'        # assign name of the model                             
 
 # Architecture of the NMR model
-visible = Input(shape=(600,1))
-conv1 = Conv1D(filters=16, kernel_size=9, strides=9, activation='relu')(visible)
-flat = Flatten()(conv1)
-hidden13 = Dense(27, activation='relu')(flat)
-hidden14 = Dense(9, activation='relu')(hidden13)
-output = Dense(3, activation='relu')(hidden14)
-model = Model(inputs=visible, outputs=output)
+visible = Input(shape=(600,1))                                                      #input layer (spectra size)
+conv1 = Conv1D(filters=16, kernel_size=9, strides=9, activation='relu')(visible)    #convolutional layer
+flat = Flatten()(conv1)                                                             #flatten of the convolutional layer
+hidden13 = Dense(27, activation='relu')(flat)                                       # dense layer 1
+hidden14 = Dense(9, activation='relu')(hidden13)                                    # dense layer 2
+output = Dense(3, activation='relu')(hidden14)                                      # dense layer 3
+model = Model(inputs=visible, outputs=output)                                       # output layer
 
 # summarize layers
 print(model.summary())
