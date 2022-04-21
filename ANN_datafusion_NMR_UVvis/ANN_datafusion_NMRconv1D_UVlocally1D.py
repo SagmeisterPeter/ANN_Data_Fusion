@@ -80,24 +80,24 @@ visible_NMR = Input(shape=(600,1))         #input layer (spectrum size)
 visible_UV = Input(shape=(187,1)           #input layer (spectrum size)
                    
 #architecture for the ANN for NMR
-conv1_NMR = Conv1D(filters=16, kernel_size=9, strides=9, activation ='relu')(visible_NMR) #convolutional layer for NMR
+conv1_NMR = Conv1D(filters=16, kernel_size=9, strides=9, activation ='relu')(visible_NMR) #convolutional layer for NMR (tune filters, kernel size, strides and the activation function)
 flat_NMR = Flatten()(conv1_NMR)                                                           #flatten of the NMR convolutional layer
-hidden11_NMR = Dense(27, activation='relu')(flat_NMR)                                     #dense layer 1
-hidden12_NMR = Dense(9, activation='relu')(hidden11_NMR)                                  #dense layer 2
-output_NMR = Dense(3, activation='relu')(hidden12_NMR)                                    #output NMR layer
+hidden11_NMR = Dense(27, activation='relu')(flat_NMR)                                     #dense layer 1 NMR connected to the flatten layer of NMR (tune neurons and activation function)
+hidden12_NMR = Dense(9, activation='relu')(hidden11_NMR)                                  #dense layer 2 NMR connceted to the dense layer 1 NMR (tune neurons and activation function)
+output_NMR = Dense(3, activation='relu')(hidden12_NMR)                                    #output NMR layer dense layer connected to dense layer 2 NMR (3 neurons represent the 3 intermediates measured at this point, tune the activation function)
 
 #architecture for the ANN for UV/vis
-conv1_UV =  LocallyConnected1D(filters=10, kernel_size=5, strides=2, activation ='elu')(visible_UV)   #convolutional layer for UV
+conv1_UV =  LocallyConnected1D(filters=10, kernel_size=5, strides=2, activation ='elu')(visible_UV)   #convolutional layer for UV (tune filters, kernel size, strides and the activation function)
 flat_UV = Flatten()(conv1_UV)                                                                         #flatten of the UV convolutional layer
-hidden11_UV = Dense(64, activation='relu')(flat_UV)                                                   #dense layer 1                   
-output_UV = Dense(32, activation='relu')(hidden11_UV)                                                 #dense layer 2 (output of UV)
+hidden11_UV = Dense(64, activation='relu')(flat_UV)                                                   #dense layer 1 UV connected to the flatten layer of UV   (tune neurons and activation function)                 
+output_UV = Dense(32, activation='relu')(hidden11_UV)                                                 #dense layer 2 UV (output of UV) connected to dense layer 1 UV (tune neurons and activation function)
 
 #architecture for the ANN to merge ANN for NMR and ANN for UV/vis
-merge1 = concatenate([output_NMR,output_UV])                                        #combining UV and NMR layers
-hidden11 = Dense(99, activation='relu')(merge1)                                     #dense layer 1
-hidden12 = Dense(64, activation='relu')(hidden11)                                   #dense layer 2
-hidden13 = Dense(16, activation='relu')(hidden12)                                   #dense layer 3   
-output = Dense(4, activation='relu')(hidden13)                                      #output layer
+merge1 = concatenate([output_NMR,output_UV])                                        #combining the output of the UV and NMR networks to a new input for a NN
+hidden11 = Dense(99, activation='relu')(merge1)                                     #dense layer 1 comb connected to the input layer (tune neurons and activation function)
+hidden12 = Dense(64, activation='relu')(hidden11)                                   #dense layer 2 comb connected to dense layer 1 comb (tune neurons and activation function)
+hidden13 = Dense(16, activation='relu')(hidden12)                                   #dense layer 3 comb connected to dense layer 2 comb (tune neurons and activation function)
+output = Dense(4, activation='relu')(hidden13)                                      #output layer as dense layer connected the dense layer 3 comb (4 neurons represent the 4 intermediates measured at this point, tune the activation function)
 model = Model(inputs=[visible_NMR , visible_UV], outputs=[output_NMR, output])      #assign inputs and outputs of the model
 
 
