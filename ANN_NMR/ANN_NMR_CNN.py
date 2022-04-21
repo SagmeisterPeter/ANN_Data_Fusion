@@ -22,7 +22,7 @@ from tensorflow.keras.layers import Dense, Input, Flatten, LocallyConnected1D,Co
 from tensorflow.keras.optimizers import Adam
 maxnorm = max_norm(max_value=2, axis=0)
 #%%import training data and validation data
-path1 = ''
+path1 = ''                              # insert path where the training data and validation data is saved
 
 simulated_set = np.load(path1+'NMR_simulated_set.npy')
 experimental_mixtures_set = np.load(path1+'NMR_experimental_mixtures_set.npy')
@@ -94,7 +94,7 @@ path2 = ''                              # insert path where the model should be 
 model_path_name = 'model_1.hdf5'        # assign name of the model                             
 
 # Architecture of the NMR model
-visible = Input(shape=(600,1))                                                      #input layer (spectra size)
+visible = Input(shape=(600,1))                                                      #input layer (spectrum size)
 conv1 = Conv1D(filters=16, kernel_size=9, strides=9, activation='relu')(visible)    #convolutional layer
 flat = Flatten()(conv1)                                                             #flatten of the convolutional layer
 hidden13 = Dense(27, activation='relu')(flat)                                       # dense layer 1
